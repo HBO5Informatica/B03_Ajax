@@ -1,58 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>B03 - Ajax - Programmeren 4</title>
 
     <style>
-        body{
+        body {
             font-size: 1.5em;
         }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     Een introductie tot <span style="cursor: pointer; color:green;" onclick="toonDetails()">Ajax</span>
 
     <div style="border:solid; border-width: 1px 0px 1px 0px; width:400px;" id="introductie"></div>
 
     <script>
-      function toonDetails() {
-        xmlHttp = GetXmlHttpObject();
+        function toonDetails() {
+            xmlHttp = GetXmlHttpObject();
 
-        if (xmlHttp === null) {
-          alert("Browser does not support HTTP requests");
-          return;
+            if (xmlHttp === null) {
+                alert("Browser does not support HTTP requests");
+                return;
+            }
+
+            var url = "assets/files/ajax.txt";
+            url = url + "?sid=" + Math.random();
+
+            xmlHttp.onreadystatechange = stateChanged;
+            xmlHttp.open("GET", url, true);
+            xmlHttp.send(null);
         }
 
-        var url = "assets/files/ajax.txt";
-        url = url + "?sid=" + Math.random();
-
-        xmlHttp.onreadystatechange = stateChanged;
-        xmlHttp.open("GET", url, true);
-        xmlHttp.send(null);
-      }
-
-      function GetXmlHttpObject(handler) {
-        var objXMLHttp = null;
-        if (window.XMLHttpRequest) {
-          objXMLHttp = new XMLHttpRequest();
-        } else if (window.ActiveXObject) {
-          objXMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        function GetXmlHttpObject(handler) {
+            var objXMLHttp = null;
+            if (window.XMLHttpRequest) {
+                objXMLHttp = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                objXMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            return objXMLHttp;
         }
-        return objXMLHttp;
-      }
 
-      function stateChanged() {
-        if (xmlHttp.readyState === 4) {
-          if (xmlHttp.status === 200) {
-            document.getElementById("introductie").innerHTML = xmlHttp.responseText;
-          } else {
-            alert("Probleem met het request! Indien CORS-problemen --> hosten via localhost, niet via harde schijf!");
-          }
+        function stateChanged() {
+            if (xmlHttp.readyState === 4) {
+                if (xmlHttp.status === 200) {
+                    document.getElementById("introductie").innerHTML = xmlHttp.responseText;
+                } else {
+                    alert("Probleem met het request! Indien CORS-problemen --> hosten via localhost, niet via harde schijf!");
+                }
+            }
         }
-      }
     </script>
-  </body>
+</body>
+
 </html>
